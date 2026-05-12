@@ -1,0 +1,26 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { CreateUserDto } from './dto/create.user.dto';
+import { UserRepository } from './user.repository';
+import { User } from '../../generated/prisma/client';
+import { GetUserByEmailDto } from './dto/get.user.dto';
+import { UpdateUserDto } from './dto/update.user.dto';
+
+
+@Injectable()
+export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
+  constructor(private userRepository: UserRepository) {}
+
+  async findOneByEmail(getUserDto: GetUserByEmailDto): Promise<User|null>{
+    return await this.userRepository.findOneByEmail(getUserDto)
+  }
+
+  async create(createUserDto: CreateUserDto): Promise<User>{
+   return await this.userRepository.create(createUserDto)
+  }
+
+  async update(getUserDto: GetUserByEmailDto, updateUserDto: UpdateUserDto): Promise<User>{
+    return await this.userRepository.update(getUserDto, updateUserDto)
+  }
+}

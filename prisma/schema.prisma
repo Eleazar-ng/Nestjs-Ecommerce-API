@@ -6,6 +6,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -26,7 +27,7 @@ model User {
   lastName          String
   role              Role      @default(CUSTOMER)
   isEmailVerified   Boolean   @default(false)
-  isActive          Boolean   @default(true)
+  isActive          Boolean   @default(false)
   auth0Id           String?   @unique
   
   createdAt         DateTime  @default(now())
