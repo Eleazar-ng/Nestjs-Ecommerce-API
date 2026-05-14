@@ -13,11 +13,5 @@ export const verify = async (
   encrypted: string,
   entered: string,
 ): Promise<boolean> => {
-  return compare(entered, encrypted)
-    .then((result) => {
-      return true;
-    })
-    .catch((error) => {
-      return false;
-    });
+  return await compare(entered, encrypted)
 };

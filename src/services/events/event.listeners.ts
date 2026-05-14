@@ -11,4 +11,8 @@ export class EventListeners {
     console.log("****Sending verification email to new user*****")
   }
 
+  @OnEvent(EVENT_NAMES.LOGIN_USER)
+  async handleUserLoginEvent(payload: any) {
+    console.log("****Logged In User*****")
+  }
 }

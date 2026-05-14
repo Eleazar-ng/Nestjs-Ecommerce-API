@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, Injectable, Logger, NotFoundExc
 import { CreateUserDto } from '../user/dto/create.user.dto';
 import { UserService } from '../user/user.service';
 import { EventService } from '../../services/events/event.service';
-import { encrypt } from '../../utils/hash';
+import { encrypt, verify } from '../../utils/hash';
 import { EVENT_NAMES } from '../../services/events/event.name.constants';
 import { generateRandomNumber } from '../../utils/random.string';
 import { RedisService } from '../../services/redis/redis.service';
@@ -15,6 +15,7 @@ import { TokensDto } from './dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { RefreshTokenService } from '../refreshToken/refreshToken.service';
+import { LoginUserDto } from './dto/login.user.dto';
 
 @Injectable()
 export class AuthService {
@@ -179,5 +180,41 @@ export class AuthService {
     };
   }
 
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userService.findOneByEmail({
+      email: email.toLowerCase()
+    }); 
 
+    if (!user) throw new NotFoundException("User not found");
+    // if (!user.isActive) throw new UnauthorizedException('Account is disabled');
+
+    if(user.password){
+      const isMatch = await verify(user.password, password);
+      return isMatch ? user : null;
+    } else {
+      return null
+    }
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const validated = await this.validateUser(loginUserDto.email, loginUserDto.password);
+    if(!validated){
+      throw new UnauthorizedException('Invalid login credentials');
+    }
+
+    const updatedUser = await this.userService.update({ email: loginUserDto.email.toLowerCase() }, { 
+      lastLoginAt: new Date() 
+    });
+
+    await this.eventService.emit(EVENT_NAMES.LOGIN_USER, {...updatedUser})
+
+    const data = await this.generateTokens(updatedUser);
+
+    const returnData = {
+      ...data,
+      requiresVerification: updatedUser.isEmailVerified ? false : true
+    }
+
+    return success("Logged In Successfully", returnData)
+  }
 }

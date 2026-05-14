@@ -8,6 +8,7 @@ import { UserModule } from '../user/user.module';
 import { EventModule } from '../../services/events/event.module';
 import { RedisService } from '../../services/redis/redis.service';
 import { RefreshTokenModule } from '../refreshToken/refreshToken.module';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { RefreshTokenModule } from '../refreshToken/refreshToken.module';
     RefreshTokenModule
   ],
   controllers: [AuthController],
-  providers: [AuthService,RedisService],
+  providers: [AuthService,RedisService, LocalStrategy],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

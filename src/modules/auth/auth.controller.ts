@@ -6,6 +6,9 @@ import { AuthService } from './auth.service';
 import { Public } from '../../common/decorators/public.decorator';
 import { SendEmailDto } from './dto/send.email.dto';
 import { VerifyEmailDto } from './dto/verify.email.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { LoginUserDto } from './dto/login.user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -56,6 +59,21 @@ export class AuthController {
   })
   verify(@Body() verifyEmailDto: VerifyEmailDto){
     return this.authService.verifyEmail(verifyEmailDto);
+  }
+
+  @Public()
+  @Post('login')
+  @HttpCode(HttpStatus.CREATED)
+    @ApiOperation({ 
+    summary: 'Login with email and password',
+    description: 'This endpoint logs in a user'
+  })
+  @ApiResponse({
+    status: 201, 
+    description: 'Login successful'
+  })
+  login(@Body() loginUserDto: LoginUserDto){
+    return this.authService.login(loginUserDto);
   }
 
 }
