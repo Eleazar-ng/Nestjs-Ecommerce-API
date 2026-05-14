@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "profiles" ALTER COLUMN "phone" DROP NOT NULL,
+ALTER COLUMN "dob" DROP NOT NULL;

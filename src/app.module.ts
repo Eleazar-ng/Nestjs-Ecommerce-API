@@ -14,6 +14,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './modules/user/user.module';
 import { RefreshTokenModule } from './modules/refreshToken/refreshToken.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
   imports: [
@@ -64,7 +65,8 @@ import { RefreshTokenModule } from './modules/refreshToken/refreshToken.module';
     AuthModule,
     PrismaModule,
     UserModule,
-    RefreshTokenModule
+    RefreshTokenModule,
+    ProfileModule
 ],
   controllers: [AppController],
   providers: [AppService],

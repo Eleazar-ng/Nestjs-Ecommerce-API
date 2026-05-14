@@ -9,6 +9,7 @@ import { EventModule } from '../../services/events/event.module';
 import { RedisService } from '../../services/redis/redis.service';
 import { RefreshTokenModule } from '../refreshToken/refreshToken.module';
 import { LocalStrategy } from './strategies/local.strategy';
+import { ProfileModule } from '../profile/profile.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { LocalStrategy } from './strategies/local.strategy';
     }),
     UserModule,
     EventModule,
-    RefreshTokenModule
+    RefreshTokenModule,
+    ProfileModule
   ],
   controllers: [AuthController],
   providers: [AuthService,RedisService, LocalStrategy],

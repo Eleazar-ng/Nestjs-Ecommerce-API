@@ -17,10 +17,12 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User>{
-   return await this.userRepository.create(createUserDto)
+    this.logger.log(`******* New User created: ${createUserDto.email, createUserDto.firstName } ******`);
+    return await this.userRepository.create(createUserDto)
   }
 
   async update(getUserDto: GetUserByEmailDto, updateUserDto: UpdateUserDto): Promise<User>{
+    this.logger.log(`******* Updated Existing User: ${getUserDto.email} ******`);
     return await this.userRepository.update(getUserDto, updateUserDto)
   }
 }

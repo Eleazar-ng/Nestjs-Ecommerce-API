@@ -45,9 +45,9 @@ model User {
 model Profile {
   id           String  @id @default(uuid())
   userId       String @unique
-  phone        String
+  phone        String?
   avatar       String?
-  dob          String
+  dob          String?
 
   // Timestamps
   createdAt    DateTime @default(now())

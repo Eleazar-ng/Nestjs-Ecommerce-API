@@ -16,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { RefreshTokenService } from '../refreshToken/refreshToken.service';
 import { LoginUserDto } from './dto/login.user.dto';
+import { ProfileService } from '../profile/profile.service';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,8 @@ export class AuthService {
     private redisService: RedisService,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private refreshTokenService: RefreshTokenService
+    private refreshTokenService: RefreshTokenService,
+    private profileService: ProfileService
   ) {}
 
   async confirmUniqueUser(email: string): Promise<any> {
@@ -127,11 +129,14 @@ export class AuthService {
       throw new UnauthorizedException("Unable to send verification email, email already verified");
     }
 
-    const updateUser = await this.userService.update({email:userData.email.toLowerCase()}, {
-      isActive: true,
-      isEmailVerified: true,
-      lastLoginAt: new Date()
-    })
+    const [updateUser, profile]= await Promise.all([
+      this.userService.update({email:user.email.toLowerCase()}, {
+        isActive: true,
+        isEmailVerified: true,
+        lastLoginAt: new Date()
+      }),
+      this.profileService.create({userId:user.id})
+    ]) 
 
     // Automatically login the user and retrieve token
     const data = await this.generateTokens(updateUser);
