@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
@@ -53,6 +54,52 @@ async function bootstrap() {
     new LoggingInterceptor(logger),
     new TransformInterceptor(),
   );
+
+    // Swagger Documentation
+  if (configService.get<string>('NODE_ENV') !== 'production') {
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle('E-Commerce API')
+      .setDescription(
+        `
+        ## Scalable E-Commerce REST API
+        
+        ### Features
+        - JWT & Auth0 Authentication
+        - Product Management with Variants & Inventory
+        - Shopping Cart with Coupon Support
+        - Order Management with Status Tracking
+        - Stripe Payment Integration
+        - Admin Panel
+        - Real-time Notifications
+        
+        ### Authentication
+        Use **Bearer Token** in the Authorization header.
+        Obtain tokens via \`POST /api/v1/auth/login\`
+      `,
+      )
+      .setVersion('1.0')
+      .addBearerAuth()
+      .addTag('auth', 'Authentication & Authorization')
+      .addTag('users', 'User Management')
+      .addTag('products', 'Product Catalog')
+      .addTag('categories', 'Product Categories')
+      .addTag('cart', 'Shopping Cart')
+      .addTag('orders', 'Order Management')
+      .addTag('payments', 'Payment Processing')
+      .addTag('reviews', 'Product Reviews')
+      .addTag('wishlist', 'Wishlist')
+      .addTag('admin', 'Admin Operations')
+      .addTag('health', 'Health Check')
+      .build();
+
+    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup('api-docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+        tagsSorter: 'alpha',
+      },
+    });
+  }
 
   const port = configService.get<number>('PORT', 3000);
   await app.listen(port);
