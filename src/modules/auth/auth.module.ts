@@ -16,7 +16,7 @@ import { ProfileModule } from '../profile/profile.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_ACCESS_SECRET'),
         signOptions: {
           expiresIn: configService.get<any>('JWT_ACCESS_EXPIRES_IN', '60m'),

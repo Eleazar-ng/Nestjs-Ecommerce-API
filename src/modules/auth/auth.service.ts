@@ -73,7 +73,7 @@ export class AuthService {
       requiresVerification: true
     }
 
-    return success("User registered successfully", data)
+    return data;
   }
 
   async resendEmail(resendEmailDto: SendEmailDto){
@@ -107,7 +107,7 @@ export class AuthService {
       requiresVerification: true
     }
 
-    return success("Verification email sent successfully", data)
+    return data;
   }
 
   async verifyEmail(verifyEmailDto: VerifyEmailDto){
@@ -141,7 +141,7 @@ export class AuthService {
     // Automatically login the user and retrieve token
     const data = await this.generateTokens(updateUser);
 
-    return success("Email verified successfully", data)
+    return data;
   }
 
   async generateTokens(user: User): Promise<TokensDto> {
@@ -220,6 +220,6 @@ export class AuthService {
       requiresVerification: updatedUser.isEmailVerified ? false : true
     }
 
-    return success("Logged In Successfully", returnData)
+    return returnData;
   }
 }

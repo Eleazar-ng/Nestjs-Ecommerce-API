@@ -6,9 +6,7 @@ export interface CreateUser {
 }
 
 export interface GetUser {
-  email?: string
-  firstName?: string
-  lastName?: string
+  id: string
 }
 
 export interface UpdateUser {

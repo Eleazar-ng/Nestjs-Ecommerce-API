@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserRepository } from './user.repository';
 import { User } from '../../generated/prisma/client';
-import { GetUserByEmailDto } from './dto/get.user.dto';
+import { GetUserByEmailDto, GetUserByIdDto } from './dto/get.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 
 
@@ -24,5 +24,9 @@ export class UserService {
   async update(getUserDto: GetUserByEmailDto, updateUserDto: UpdateUserDto): Promise<User>{
     this.logger.log(`******* Updated Existing User: ${getUserDto.email} ******`);
     return await this.userRepository.update(getUserDto, updateUserDto)
+  }
+
+  async findOneById(getUserDto: GetUserByIdDto): Promise<User|null>{
+    return await this.userRepository.findOne(getUserDto)
   }
 }

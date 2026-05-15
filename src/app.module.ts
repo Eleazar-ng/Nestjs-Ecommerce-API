@@ -29,6 +29,7 @@ import { ProfileModule } from './modules/profile/profile.module';
         DATABASE_URL: Joi.string().required(),
         JWT_ACCESS_SECRET: Joi.string().required(),
         JWT_REFRESH_SECRET: Joi.string().required(),
+        JWT_ACCESS_EXPIRES_IN: Joi.string().required(),
       }),
       validationOptions: {
         allowUnknown: true,

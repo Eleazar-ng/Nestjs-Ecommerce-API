@@ -18,19 +18,22 @@ export class UserRepository {
   async update(user:GetUserByEmail, payload:UpdateUser ): Promise<User> {
     return await this.prisma.user.update({
       where:user,
-      data:payload
+      data:payload,
     })
   }
 
-  async findOne(data: GetUser): Promise<User|null>{
+  async findOne(data: GetUser): Promise<User|null|any>{
     return await this.prisma.user.findFirst({
-      where: data
+      where: data,
+      omit:{
+        password:true
+      }
     });
   }
 
   async findOneByEmail(data: GetUserByEmail): Promise<User|null>{
     return await this.prisma.user.findUnique({
-      where: data
+      where: data,
     });
   }
 }
