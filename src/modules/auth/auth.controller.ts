@@ -9,6 +9,7 @@ import { VerifyEmailDto } from './dto/verify.email.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { LoginUserDto } from './dto/login.user.dto';
+import { success } from '../../utils/response.api';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -27,8 +28,9 @@ export class AuthController {
     status: 201, 
     description: 'Account creation successful'
   })
-  register(@Body() registerDto: CreateUserDto){
-    return this.authService.register(registerDto);
+  async register(@Body() registerDto: CreateUserDto){
+    const data = await this.authService.register(registerDto);
+    return success("User registered successfully", data);
   }
 
   @Public()
@@ -42,8 +44,9 @@ export class AuthController {
     status: 201, 
     description: 'Verification email sent successfully'
   })
-  resend(@Body() resendDto: SendEmailDto){
-    return this.authService.resendEmail(resendDto);
+  async resend(@Body() resendDto: SendEmailDto){
+    const data = await this.authService.resendEmail(resendDto);
+    return success("Verification email sent successfully", data);
   }
 
   @Public()
@@ -57,8 +60,9 @@ export class AuthController {
     status: 201, 
     description: 'Email verified successfully'
   })
-  verify(@Body() verifyEmailDto: VerifyEmailDto){
-    return this.authService.verifyEmail(verifyEmailDto);
+  async verify(@Body() verifyEmailDto: VerifyEmailDto){
+    const data = await this.authService.verifyEmail(verifyEmailDto);
+    return success("Email verified successfully", data);
   }
 
   @Public()
@@ -72,8 +76,9 @@ export class AuthController {
     status: 201, 
     description: 'Login successful'
   })
-  login(@Body() loginUserDto: LoginUserDto){
-    return this.authService.login(loginUserDto);
+  async login(@Body() loginUserDto: LoginUserDto){
+    const data = await this.authService.login(loginUserDto);
+    return success("Logged In Successfully", data);
   }
 
 }

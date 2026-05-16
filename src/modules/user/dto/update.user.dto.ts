@@ -1,12 +1,13 @@
-import { IsEmail, IsString, MinLength, MaxLength, IsStrongPassword, IsNotEmpty, IsOptional, IsBoolean, IsDateString } from "class-validator";
+import { IsEmail, IsString, MinLength, MaxLength, IsStrongPassword, IsNotEmpty, IsOptional, IsBoolean, IsDateString, isDate, isDateString } from "class-validator";
+import { Role } from "../../../generated/prisma/enums";
 
 export class UpdateUserDto {
 
-  @IsOptional()
-  @IsString()
-  @IsStrongPassword()
-  @MaxLength(50)
-  password?: string;
+  //@IsOptional()
+  //@IsString()
+  //@IsStrongPassword()
+  //@MaxLength(50)
+  //password?: string;
 
   @IsOptional()
   @IsString()
@@ -27,6 +28,13 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsString()
+  role?: Role
+
+  @IsOptional()
+  auth0Id?: string | null
 
   @IsOptional()
   @IsDateString()
