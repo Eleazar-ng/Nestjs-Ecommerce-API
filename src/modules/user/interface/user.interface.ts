@@ -1,3 +1,5 @@
+import { Role } from "../../../generated/prisma/enums"
+
 export interface CreateUser {
   email: string
   password: string
@@ -20,4 +22,12 @@ export interface UpdateUser {
 
 export interface GetUserByEmail {
   email: string
+}
+
+export interface GetUsersFilter {
+  email?: string | any;
+  firstName?: string | any;
+  lastName?: string | any;
+  role?: Role;
+  isEmailVerified?: boolean | any
 }

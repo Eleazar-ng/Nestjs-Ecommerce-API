@@ -6,6 +6,6 @@ export class GetUserByEmailDto {
 }
 
 export class GetUserByIdDto {
-  @IsEmail()
+  @IsString()
   id!: string;
 }
