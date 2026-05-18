@@ -27,7 +27,7 @@ export class UserController {
     description: 'User Information retrieved successfully'
   })
   async getUser(@Request() req){
-    const data = await this.userService.findOneById({id: req.user.id});
+    const data = await this.userService.findOneById({id: req.user.sub});
     return success('User retrieved successfully', data);
   }
 

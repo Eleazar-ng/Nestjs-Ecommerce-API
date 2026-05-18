@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient, Role } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { encrypt } from "../src/utils/hash";
 
@@ -18,7 +18,9 @@ async function main() {
     where: {
       email: "superadmin@store.com"
     },
-    update: {},
+    update: {
+      role: Role.SUPER_ADMIN
+    },
     create: {
       email: "superadmin@store.com",
       password: await encrypt("Superadmin01$"),
@@ -31,12 +33,14 @@ async function main() {
   where: {
     email: "admin@store.com"
   },
-  update: {},
+  update: {
+    role: Role.ADMIN
+  },
   create: {
     email: "admin@store.com",
     password: await encrypt("Admin001$"),
     firstName: "Admin",
-    lastName: "Doe"
+    lastName: "Doe",
   }
 })
 
