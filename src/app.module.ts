@@ -15,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './modules/user/user.module';
 import { RefreshTokenModule } from './modules/refreshToken/refreshToken.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -67,7 +68,8 @@ import { ProfileModule } from './modules/profile/profile.module';
     PrismaModule,
     UserModule,
     RefreshTokenModule,
-    ProfileModule
+    ProfileModule,
+    CategoryModule
 ],
   controllers: [AppController],
   providers: [AppService],
