@@ -17,6 +17,7 @@ import { RefreshTokenModule } from './modules/refreshToken/refreshToken.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { CategoryModule } from './modules/category/category.module';
 import { ProductModule } from './modules/products/products.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -71,7 +72,8 @@ import { ProductModule } from './modules/products/products.module';
     RefreshTokenModule,
     ProfileModule,
     CategoryModule,
-    ProductModule
+    ProductModule,
+    HealthModule
 ],
   controllers: [AppController],
   providers: [AppService],
