@@ -146,9 +146,60 @@ model Product {
   
   // Relations
   category      Category      @relation(fields: [categoryId], references: [id])
+  variants      ProductVariant[]
+  images        ProductImage[]
+  inventory     Inventory?
   
   @@index([status])
   @@index([categoryId])
   @@index([slug])
   @@map("products")
+}
+
+model ProductVariant {
+  id          String    @id @default(uuid())
+  productId   String
+  name        String    // e.g., "Red / XL"
+  sku         String    @unique
+  price       Decimal   @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)  // original price for discounts
+  costPrice   Decimal?  @db.Decimal(10, 2)  // for margin calculations
+  attributes  Json      // { color: "red", size: "XL" }
+  stockQty    Int       @default(0)
+  lowStockThreshold Int @default(5)
+  isActive    Boolean   @default(true)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("product_variants")
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  productId String
+  url       String
+  altText   String?
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+  
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("product_images")
+}
+
+model Inventory {
+  id           String   @id @default(uuid())
+  productId    String   @unique
+  totalStock   Int      @default(0)
+  reservedStock Int     @default(0)  // items in carts/pending orders
+  soldCount    Int      @default(0)
+  
+  updatedAt    DateTime @updatedAt
+  
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("inventory")
 }
