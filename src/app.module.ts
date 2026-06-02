@@ -18,6 +18,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { CategoryModule } from './modules/category/category.module';
 import { ProductModule } from './modules/products/products.module';
 import { HealthModule } from './modules/health/health.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -73,7 +74,8 @@ import { HealthModule } from './modules/health/health.module';
     ProfileModule,
     CategoryModule,
     ProductModule,
-    HealthModule
+    HealthModule,
+    InventoryModule
 ],
   controllers: [AppController],
   providers: [AppService],
